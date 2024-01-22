@@ -7,8 +7,9 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/OlehIlnytskyi/Technologies/tree/spring-cloud-config/Spring%20Cloud%20Config/configs
-          search-paths: '{application}'
+          uri: https://github.com/OlehIlnytskyi/Technologies
+          search-paths: 'Spring Cloud Config/configs/{application}'
+          repos: {label}
 
 vars:
   variable_one:
