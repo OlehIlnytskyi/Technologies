@@ -1,0 +1,15 @@
+
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/OlehIlnytskyi/Technologies/tree/spring-cloud-config/Spring%20Cloud%20Config/configs
+          search-paths: '{application}'
+
+vars:
+  variable_one:
+    value: inside-config-server
