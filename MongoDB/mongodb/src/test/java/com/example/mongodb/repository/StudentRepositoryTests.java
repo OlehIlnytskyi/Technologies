@@ -10,6 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.List;
+
+import static com.example.mongodb.utils.TestsUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
@@ -32,7 +35,7 @@ public class StudentRepositoryTests {
     }
 
     @Test
-    void testSaveMethodWorksAgain() {
+    void testTransactionsWithCopyOfPrevTest() {
         Student student = getTestStudent_B();
 
         studentRepository.save(student);
@@ -40,19 +43,50 @@ public class StudentRepositoryTests {
         assertEquals(1, studentRepository.count());
     }
 
-    public Student getTestStudent_A() {
-        return Student.builder()
-                .name("Student")
-                .surname("A")
-                .grade(3)
-                .build();
+    @Test
+    void testFindAllByNameWorks() {
+        Student student_A = getTestStudent_A();
+        Student student_B = getTestStudent_B();
+        studentRepository.save(student_A);
+        studentRepository.save(student_B);
+
+        List<Student> actual = studentRepository.findAllByName(student_A.getName());
+
+        assertEquals(1, actual.size());
     }
 
-    public Student getTestStudent_B() {
-        return Student.builder()
-                .name("Student")
-                .surname("B")
-                .grade(4)
-                .build();
+    @Test
+    void testFindAllBySurnameWorks() {
+        Student student_A = getTestStudent_A();
+        Student student_B = getTestStudent_B();
+        studentRepository.save(student_A);
+        studentRepository.save(student_B);
+
+        List<Student> actual = studentRepository.findAllBySurname(student_B.getSurname());
+
+        assertEquals(1, actual.size());
+    }
+
+    @Test
+    void testFindAllByGradeWorks() {
+        Student student_A = getTestStudent_A();
+        Student student_B = getTestStudent_B();
+        studentRepository.save(student_A);
+        studentRepository.save(student_B);
+
+        List<Student> actual = studentRepository.findAllByGrade(student_A.getGrade());
+
+        assertEquals(1, actual.size());
+    }
+
+    @Test
+    void testDeleteMethodWorks() {
+        Student student = getTestStudent_A();
+        studentRepository.save(student);
+        assertEquals(1, studentRepository.count());
+
+        studentRepository.delete(student);
+
+        assertEquals(0, studentRepository.count());
     }
 }
