@@ -1,0 +1,12 @@
+
+spring:
+  data:
+    mongodb:
+      host: 'localhost'
+      port: '27017'
+      database: 'mongodb_c'
+
+      authentication-database: 'admin'
+      username: 'nikent'
+      password: 'a7kBAiw3FulP9uCtqqCaTrQg0XacWM4S'
+#      uri: 'mongodb://nikent:a7kBAiw3FulP9uCtqqCaTrQg0XacWM4S@localhost:27017/mongodb_c'
