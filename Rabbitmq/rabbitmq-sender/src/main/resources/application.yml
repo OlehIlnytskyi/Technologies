@@ -2,6 +2,8 @@
 server:
   port: '8080'
 
+## With Config Server we can get rid of this repetition
+
 rabbitmq:
   exchanges:
     order-direct: 'order-direct-exchange'

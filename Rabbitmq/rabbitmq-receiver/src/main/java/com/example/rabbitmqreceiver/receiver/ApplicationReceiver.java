@@ -9,7 +9,17 @@ import org.springframework.stereotype.Component;
 public class ApplicationReceiver {
 
     @RabbitListener(queues = "${rabbitmq.queues.payment}")
-    public void processPayment(String message) {
+    public void receiveMessageToPaymentService(String message) {
         log.info("Received message - \"" + message + "\" from payment queue");
+    }
+
+    @RabbitListener(queues = "${rabbitmq.queues.inventory}")
+    public void receiveMessageToInventoryService(String message) {
+        log.info("Received message - \"" + message + "\" from inventory queue");
+    }
+
+    @RabbitListener(queues = "${rabbitmq.queues.shipping}")
+    public void receiveMessageToShippingService(String message) {
+        log.info("Received message - \"" + message + "\" from shipping queue");
     }
 }
