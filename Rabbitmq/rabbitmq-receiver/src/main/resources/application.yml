@@ -18,9 +18,9 @@ rabbitmq:
 
 spring:
   rabbitmq:
-    virtual-host: 'oykyvybz'
-    host: 'cow.rmq2.cloudamqp.com'
+    virtual-host: 'ovihavzd'
+    host: 'sparrow.rmq.cloudamqp.com'
     port: '5672'
-    username: 'oykyvybz'
-    password: 'vuN2P58msCqt7fxdlAqLChl8XQXPtx0N'
-#    url: 'amqps://oykyvybz:vuN2P58msCqt7fxdlAqLChl8XQXPtx0N@cow.rmq2.cloudamqp.com/oykyvybz'
+    username: 'ovihavzd'
+    password: 'dEzfxr-2Cqwh1g8KxPRMt36uftJPss4B'
+#    url: 'amqps://ovihavzd:dEzfxr-2Cqwh1g8KxPRMt36uftJPss4B@sparrow.rmq.cloudamqp.com/ovihavzd'
