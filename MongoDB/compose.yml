@@ -1,0 +1,29 @@
+
+services:
+  mongodb:
+    container_name: 'mongodb'
+    image: 'mongo:6.0.13'
+    environment:
+      - 'MONGO_INITDB_ROOT_USERNAME=nikent'
+      - 'MONGO_INITDB_ROOT_PASSWORD=a7kBAiw3FulP9uCtqqCaTrQg0XacWM4S'
+    ports:
+      - '27017:27017'
+    networks:
+      - application-network
+
+  mongo-express:
+    container_name: 'mongo-express'
+    image: 'mongo-express:1.0.2'
+    environment:
+      - 'ME_CONFIG_BASICAUTH_USERNAME=nikent'
+      - 'ME_CONFIG_BASICAUTH_PASSWORD=a7kBAiw3FulP9uCtqqCaTrQg0XacWM4S'
+      - 'ME_CONFIG_MONGODB_URL=mongodb://nikent:a7kBAiw3FulP9uCtqqCaTrQg0XacWM4S@mongodb:27017/'
+    ports:
+      - '8081:8081'
+    networks:
+      - application-network
+    depends_on:
+      - mongodb
+
+networks:
+  application-network:
