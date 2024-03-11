@@ -1,0 +1,26 @@
+
+server:
+  port: '8080'
+
+## With Config Server we can get rid of this repetition
+
+rabbitmq:
+  exchanges:
+    order-direct: 'order-direct-exchange'
+  queues:
+    payment: 'payment-queue'
+    inventory: 'inventory-queue'
+    shipping: 'shipping-queue'
+  routing-keys:
+    payment: 'payment'
+    inventory: 'inventory'
+    shipping: 'shipping'
+
+spring:
+  rabbitmq:
+    virtual-host: 'oykyvybz'
+    host: 'cow.rmq2.cloudamqp.com'
+    port: '5672'
+    username: 'oykyvybz'
+    password: 'vuN2P58msCqt7fxdlAqLChl8XQXPtx0N'
+#    url: 'amqps://oykyvybz:vuN2P58msCqt7fxdlAqLChl8XQXPtx0N@cow.rmq2.cloudamqp.com/oykyvybz'
