@@ -1,0 +1,46 @@
+
+spring:
+  application:
+    name: config-client
+  profiles:
+    active: dev
+
+  config:
+    import: optional:configserver:http://localhost:8888
+
+## Main properties
+## With *** only the first one that works will return properties
+#  cloud:
+#    config:
+#      uri: http://localhost:8888, ***
+#      name: config-client
+#      profile: dev, ***
+#      label: spring-cloud-config, ***
+
+## Authorization
+#      username: user
+#      password: password
+
+##  Timeout
+#      request-read-timeout: 5s
+#      request-connect-timeout: 5s
+
+##  Eureka
+#      discovery:
+#        enabled: true
+
+##  Service discovery with Eureka
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://eureka-server/eureka/
+
+health:
+  config:
+    enabled: true
+#    time-to-live:
+
+
+vars:
+  variable_one:
+    value: inside-config-client

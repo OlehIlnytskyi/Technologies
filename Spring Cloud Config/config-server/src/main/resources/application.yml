@@ -1,0 +1,22 @@
+
+
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: 'https://github.com/OlehIlnytskyi/config-server-data'
+          search-paths: '{application}'
+          timeout: 5
+          refreshRate: 0
+          defaultLabel: 'main'
+          basedir: '../Spring Cloud Config/temp-properties'
+
+vars:
+  variable_one:
+    value: 'inside-config-server'
