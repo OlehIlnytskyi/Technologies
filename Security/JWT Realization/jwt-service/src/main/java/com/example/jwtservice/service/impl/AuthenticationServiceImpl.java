@@ -52,7 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public ResponseEntity<Boolean> validate(String jwtToken) {
-        return null;
+        return isTokenValidResponse(jwtToken);
     }
 
 
@@ -99,6 +99,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private ResponseEntity<String> jwtTokenResponse(UserDetails userDetails) {
         String jwtToken = JwtUtils.generateToken(userDetails);
         return response(HttpStatus.OK, jwtToken);
+    }
+
+    private ResponseEntity<Boolean> isTokenValidResponse(String jwtToken) {
+        boolean isTokenValid = JwtUtils.isTokenValid(jwtToken);
+        return response(HttpStatus.OK, isTokenValid);
     }
 
     private <T> ResponseEntity<T> response(HttpStatus status, T body) {
