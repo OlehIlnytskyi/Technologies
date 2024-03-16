@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+    private final static String USER_ALREADY_IN_DATABASE = "There is already user with username: ";
+
     private final UserDetailsRepository userDetailsRepository;
 
     public AuthenticationServiceImpl(UserDetailsRepository userDetailsRepository) {
@@ -24,20 +26,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public ResponseEntity<String> register(RegisterRequest request) {
-        log.info(request.username);
-        log.info(request.password);
         UserDetails userDetails = requestToUserDetails(request);
 
-        if (userDetailsRepository.findByUsername(userDetails.getUsername()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("There is already user with username: " + userDetails.getUsername());
-        }
+        if (isUserPresentInDatabase(userDetails))
+            return userAlreadyInDatabaseResponse(userDetails);
 
-        userDetailsRepository.save(userDetails);
-
-        String jwtToken = JwtUtils.generateToken(userDetails);
-
-        return ResponseEntity.ok(jwtToken);
+        saveUserDetails(userDetails);
+        return jwtTokenResponse(userDetails);
     }
 
     @Override
@@ -56,5 +51,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .username(request.username)
                 .password(request.password)
                 .build();
+    }
+
+    private boolean isUserPresentInDatabase(UserDetails userDetails) {
+        return userDetailsRepository.findByUsername(userDetails.getUsername()).isPresent();
+    }
+
+    private void saveUserDetails(UserDetails userDetails) {
+        userDetailsRepository.save(userDetails);
+    }
+
+    private ResponseEntity<String> userAlreadyInDatabaseResponse(UserDetails userDetails) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(USER_ALREADY_IN_DATABASE + userDetails.getUsername());
+    }
+
+    private ResponseEntity<String> jwtTokenResponse(UserDetails userDetails) {
+        String jwtToken = JwtUtils.generateToken(userDetails);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(jwtToken);
     }
 }
