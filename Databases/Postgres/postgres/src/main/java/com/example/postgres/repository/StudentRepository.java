@@ -1,6 +1,6 @@
 package com.example.postgres.repository;
 
-import com.example.postgres.model.Student;
+import com.example.postgres.domain.Student;
 import org.springframework.data.repository.ListCrudRepository;
 
 

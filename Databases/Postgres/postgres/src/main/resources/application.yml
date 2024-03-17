@@ -9,8 +9,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-
-#    tomcat:
-#      max-wait: 10000
-#      max-active: 50
-#      test-on-borrow: true

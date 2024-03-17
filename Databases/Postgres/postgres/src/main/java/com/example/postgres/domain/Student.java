@@ -1,4 +1,4 @@
-package com.example.postgres.model;
+package com.example.postgres.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

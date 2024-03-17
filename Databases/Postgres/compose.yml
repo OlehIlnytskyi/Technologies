@@ -1,10 +1,10 @@
 
 services:
   postgres:
-    image: postgres:15.3
+    image: 'postgres:15.3'
     environment:
       - 'POSTGRES_USER=nikent'
       - 'POSTGRES_PASSWORD=qq5QTTyd6fOiHpSdJdm9mRbVtLs22T0n'
       - 'POSTGRES_DB=database_c'
     ports:
-      - 5432:5432
+      - '5432:5432'

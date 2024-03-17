@@ -1,6 +1,6 @@
 package com.example.postgres.utils;
 
-import com.example.postgres.model.Student;
+import com.example.postgres.domain.Student;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class TestUtils {
         return List.of(
                 getTestStudent_A(),
                 getTestStudent_B(),
-                getTestStudent_B()
+                getTestStudent_C()
         );
     }
 }
