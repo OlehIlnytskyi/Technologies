@@ -1,10 +1,11 @@
 package com.example.jwtservice.service.impl;
 
-import com.example.jwtservice.jwt.JwtUtils;
+import com.example.jwtservice.security.JwtUtils;
 import com.example.jwtservice.persistence.domain.UserDetails;
 import com.example.jwtservice.persistence.repository.UserDetailsRepository;
 import com.example.jwtservice.persistence.dto.LoginRequest;
 import com.example.jwtservice.persistence.dto.RegisterRequest;
+import com.example.jwtservice.security.PasswordHashing;
 import com.example.jwtservice.service.AuthenticationService;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final static String INCORRECT_USERNAME_OR_PASSWORD_RESPONSE = "Incorrect username or password!";
 
     private final UserDetailsRepository userDetailsRepository;
+    private final PasswordHashing passwordHashing;
 
-    public AuthenticationServiceImpl(UserDetailsRepository userDetailsRepository) {
+    public AuthenticationServiceImpl(UserDetailsRepository userDetailsRepository, PasswordHashing passwordHashing) {
         this.userDetailsRepository = userDetailsRepository;
+        this.passwordHashing = passwordHashing;
     }
 
 
@@ -34,6 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (isUserPresentInDatabase(userDetails))
             return userAlreadyInDatabaseResponse(userDetails);
 
+        hashPasswordForUser(userDetails);
         saveUserDetails(userDetails);
         return jwtTokenResponse(userDetails);
     }
@@ -42,6 +46,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public ResponseEntity<String> login(LoginRequest request) {
         UserDetails userDetails = loginRequestToUserDetails(request);
         UserDetails savedUserDetails = getUserDetailsOrBlank(userDetails);
+
+        hashPasswordForUser(userDetails);
 
         if (!arePasswordsEquals(userDetails, savedUserDetails))
             // This will also be triggered if the username is incorrect
@@ -70,12 +76,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
+
+
     private boolean isUserPresentInDatabase(UserDetails userDetails) {
         return userDetailsRepository.findByUsername(userDetails.getUsername()).isPresent();
-    }
-
-    private boolean arePasswordsEquals(UserDetails userDetails1, UserDetails userDetails2) {
-        return Objects.equals(userDetails1.getPassword(), userDetails2.getPassword());
     }
 
     private UserDetails getUserDetailsOrBlank(UserDetails userDetails) {
@@ -86,6 +90,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private void saveUserDetails(UserDetails userDetails) {
         userDetailsRepository.save(userDetails);
     }
+
+
+    private void hashPasswordForUser(UserDetails userDetails) {
+        String hashedPassword = passwordHashing.hash(userDetails.getPassword());
+        userDetails.setPassword(hashedPassword);
+    }
+
+    private boolean arePasswordsEquals(UserDetails userDetails1, UserDetails userDetails2) {
+        return Objects.equals(userDetails1.getPassword(), userDetails2.getPassword());
+    }
+
+
 
     private ResponseEntity<String> userAlreadyInDatabaseResponse(UserDetails userDetails) {
         String body = USER_ALREADY_IN_DATABASE_RESPONSE + userDetails.getUsername();
