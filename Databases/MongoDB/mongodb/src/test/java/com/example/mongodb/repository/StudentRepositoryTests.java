@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Testcontainers
 @ContextConfiguration(classes = TestsConfiguration.class)
 @EnableMongoRepositories(basePackages = "com.example.mongodb.repository")
-public class sStudentRepositoryTests {
+public class StudentRepositoryTests {
 
     @Autowired
     private StudentRepository studentRepository;
